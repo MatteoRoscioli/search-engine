@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-Configured Link Search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-2xl bg-white rounded-lg shadow-lg p-6">
+        <h1 class="text-2xl font-bold text-center mb-6">Quick Link Search</h1>
+
+        <!-- Search Bar -->
+        <div class="mb-6">
+            <input id="searchInput" type="text" placeholder="Search links..." class="w-full p-2 border rounded" oninput="searchLinks()">
+        </div>
+
+        <!-- Link Buttons -->
+        <div id="results" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+    </div>
+
+    <script>
+        // Pre-configured links
+        const links = [
+            { name: "Some games", url: "https://marcoroscioli.github.io/Seemygames-stuff/" },
+            { name: "Wikipedia", url: "https://www.wikipedia.org" },
+            { name: "GitHub", url: "https://www.github.com" },
+            { name: "YouTube", url: "https://www.youtube.com" },
+            { name: "Reddit", url: "https://www.reddit.com" }
+        ];
+
+        // Function to search and display link buttons
+        function searchLinks() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            const filteredLinks = links.filter(link => 
+                link.name.toLowerCase().includes(query) || link.url.toLowerCase().includes(query)
+            );
+
+            if (filteredLinks.length === 0) {
+                resultsDiv.innerHTML = '<p class="text-gray-500 text-center col-span-full">No results found.</p>';
+                return;
+            }
+
+            filteredLinks.forEach(link => {
+                const buttonElement = document.createElement('button');
+                buttonElement.className = 'p-3 bg-blue-500 text-white rounded hover:bg-blue-600 text-center';
+                buttonElement.textContent = link.name;
+                buttonElement.onclick = () => window.open(link.url, '_blank');
+                resultsDiv.appendChild(buttonElement);
+            });
+        }
+
+        // Initial render
+        searchLinks();
+    </script>
+</body>
+</html>
